@@ -25,12 +25,10 @@ public class TaskRepository {
         this.taskDao = AppDatabase.getInstance(context).taskDao();
     }
 
-    // Lấy danh sách Task dạng LiveData → TaskListActivity tự động update UI
     public LiveData<List<Task>> getAllTasks() {
         return taskDao.getAllTasks();
     }
 
-    // LẤY 1 TASK THEO ID (PHỤC VỤ EDIT)
     public Task getTaskById(int id) {
         try {
             return executor.submit(() -> taskDao.getTaskById(id)).get();
@@ -40,7 +38,6 @@ public class TaskRepository {
         }
     }
 
-    // INSERT
     public long addTask(Task task) {
         try {
             return executor.submit(() -> taskDao.insertTask(task)).get();
@@ -50,12 +47,10 @@ public class TaskRepository {
         }
     }
 
-    // UPDATE
     public void updateTask(Task task) {
         executor.execute(() -> taskDao.updateTask(task));
     }
 
-    // DELETE
     public void deleteTask(Task task) {
         executor.execute(() -> taskDao.deleteTask(task));
     }

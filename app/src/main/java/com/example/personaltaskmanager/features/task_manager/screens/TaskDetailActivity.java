@@ -39,19 +39,19 @@ public class TaskDetailActivity extends AppCompatActivity {
         // KHỞI TẠO VIEWMODEL
         viewModel = new ViewModelProvider(this).get(TaskViewModel.class);
 
-        // Nhận task_id nếu mở bằng EDIT
+        // Nhận task_id nếu đang EDIT
         taskId = getIntent().getIntExtra("task_id", -1);
 
-        // Nếu có taskId → load DB để hiển thị
         if (taskId != -1) {
             currentTask = viewModel.getTaskById(taskId);
             if (currentTask != null) {
                 edtTitle.setText(currentTask.getTitle());
                 edtDescription.setText(currentTask.getDescription());
+                btnSave.setText("Cập nhật công việc");
             }
         }
 
-        // Xử lý nút LƯU
+        // Nút LƯU
         btnSave.setOnClickListener(v -> {
 
             String title = edtTitle.getText().toString().trim();
@@ -72,7 +72,6 @@ public class TaskDetailActivity extends AppCompatActivity {
 
             // ADD
             viewModel.addTask(title, desc);
-
             setResult(RESULT_OK);
             finish();
         });
