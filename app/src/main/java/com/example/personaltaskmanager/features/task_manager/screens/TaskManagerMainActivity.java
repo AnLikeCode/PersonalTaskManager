@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.widget.LinearLayout;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -14,23 +15,11 @@ import com.example.personaltaskmanager.features.task_manager.viewmodel.TaskViewM
 import com.example.personaltaskmanager.features.task_manager.data.model.Task;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
-import java.util.List;
-
-/**
- * Màn hình chính của module Task Manager.
- * Gồm:
- *  - Thanh tìm kiếm
- *  - Card tổng quan
- *  - Danh sách task
- *  - Bottom navigation
- *  - Nút thêm (+)
- */
 public class TaskManagerMainActivity extends AppCompatActivity {
 
     private LinearLayout navHome, navTasks, navProfile;
     private FloatingActionButton fabAddTask;
 
-    // ==== PHẦN BỔ SUNG ====
     private RecyclerView rvTasks;
     private TaskAdapter adapter;
     private TaskViewModel taskViewModel;
@@ -43,8 +32,8 @@ public class TaskManagerMainActivity extends AppCompatActivity {
         initViews();
         setupBottomNav();
         setupActions();
-        setupRecyclerView();       // <--- PHẦN BỔ SUNG
-        setupViewModelObserve();   // <--- PHẦN BỔ SUNG
+        setupRecyclerView();
+        setupViewModelObserve();
     }
 
     private void initViews() {
@@ -56,7 +45,6 @@ public class TaskManagerMainActivity extends AppCompatActivity {
 
         fabAddTask = findViewById(R.id.fab_add_task);
 
-        // ==== PHẦN BỔ SUNG ====
         rvTasks = findViewById(R.id.rv_tasks);
     }
 
@@ -89,17 +77,22 @@ public class TaskManagerMainActivity extends AppCompatActivity {
         });
     }
 
-    // ================================
-    //      PHẦN BỔ SUNG — HIỂN THỊ TASK
-    // ================================
-
     private void setupRecyclerView() {
         rvTasks.setLayoutManager(new LinearLayoutManager(this));
-        adapter = new TaskAdapter(task -> {
-            Intent intent = new Intent(TaskManagerMainActivity.this, TaskDetailActivity.class);
-            intent.putExtra("task_id", task.getId());
-            startActivity(intent);
-        });
+
+        adapter = new TaskAdapter(
+
+                // CLICK ITEM → mở chi tiết
+                task -> {
+                    Intent intent = new Intent(TaskManagerMainActivity.this, TaskDetailActivity.class);
+                    intent.putExtra("task_id", task.getId());
+                    startActivity(intent);
+                },
+
+                // CLICK DELETE → dialog confirm + ViewModel
+                task -> showDeleteConfirmDialog(task)
+        );
+
         rvTasks.setAdapter(adapter);
     }
 
@@ -107,7 +100,21 @@ public class TaskManagerMainActivity extends AppCompatActivity {
         taskViewModel = new ViewModelProvider(this).get(TaskViewModel.class);
 
         taskViewModel.getAllTasks().observe(this, tasks -> {
-            adapter.setData(tasks);   // <--- HIỂN THỊ TASK TRÊN MÀN HÌNH CHÍNH
+            adapter.setData(tasks);
         });
+    }
+
+    /**
+     * Hiện dialog xác nhận xoá task
+     */
+    private void showDeleteConfirmDialog(Task task) {
+        new AlertDialog.Builder(this)
+                .setTitle("Xóa công việc?")
+                .setMessage("Bạn có chắc muốn xóa \"" + task.getTitle() + "\" không?")
+                .setPositiveButton("Xóa", (dialog, which) -> {
+                    taskViewModel.deleteTask(task);
+                })
+                .setNegativeButton("Hủy", null)
+                .show();
     }
 }

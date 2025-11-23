@@ -10,6 +10,7 @@ import com.example.personaltaskmanager.features.task_manager.data.model.Task;
 import com.example.personaltaskmanager.features.task_manager.data.repository.TaskRepository;
 import com.example.personaltaskmanager.features.task_manager.domain.usecase.AddTaskUseCase;
 import com.example.personaltaskmanager.features.task_manager.domain.usecase.GetTasksUseCase;
+import com.example.personaltaskmanager.features.task_manager.domain.usecase.DeleteTaskUseCase;
 
 import java.util.List;
 
@@ -23,6 +24,7 @@ public class TaskViewModel extends AndroidViewModel {
     private final TaskRepository repository;
     private final GetTasksUseCase getTasksUseCase;
     private final AddTaskUseCase addTaskUseCase;
+    private final DeleteTaskUseCase deleteTaskUseCase;   // ⭐ Bổ sung
 
     // LiveData UI quan sát
     private final LiveData<List<Task>> allTasksLiveData;
@@ -33,6 +35,7 @@ public class TaskViewModel extends AndroidViewModel {
         repository = new TaskRepository(application);
         getTasksUseCase = new GetTasksUseCase(repository);
         addTaskUseCase = new AddTaskUseCase(repository);
+        deleteTaskUseCase = new DeleteTaskUseCase(repository);   // ⭐ Bổ sung
 
         // Nhận LiveData từ UseCase
         allTasksLiveData = getTasksUseCase.execute();
@@ -50,7 +53,7 @@ public class TaskViewModel extends AndroidViewModel {
     }
 
     /**
-     * Thêm task mới vào DB
+     * Thêm task mới
      */
     public void addTask(String title, String description) {
         Task task = new Task(title, description, System.currentTimeMillis());
@@ -58,11 +61,18 @@ public class TaskViewModel extends AndroidViewModel {
     }
 
     /**
-     * CẬP NHẬT TASK (EDIT)
+     * CẬP NHẬT TASK
      */
     public void updateTask(Task task, String newTitle, String newDesc) {
         task.setTitle(newTitle);
         task.setDescription(newDesc);
         repository.updateTask(task);
+    }
+
+    /**
+     * XOÁ TASK
+     */
+    public void deleteTask(Task task) {
+        deleteTaskUseCase.execute(task);
     }
 }

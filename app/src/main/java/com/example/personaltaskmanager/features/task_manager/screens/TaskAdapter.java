@@ -28,14 +28,24 @@ import java.util.List;
 public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.TaskViewHolder> {
 
     private List<Task> taskList = new ArrayList<>();
-    private OnTaskClickListener listener;
 
+    private OnTaskClickListener listener;
+    private OnTaskDeleteListener deleteListener;   // <--- THÊM MỚI
+
+    // CLICK ITEM
     public interface OnTaskClickListener {
         void onTaskClick(Task task);
     }
 
-    public TaskAdapter(OnTaskClickListener listener) {
+    // CLICK DELETE
+    public interface OnTaskDeleteListener {
+        void onTaskDelete(Task task);
+    }
+
+    // Constructor giữ nguyên, chỉ thêm deleteListener
+    public TaskAdapter(OnTaskClickListener listener, OnTaskDeleteListener deleteListener) {
         this.listener = listener;
+        this.deleteListener = deleteListener;
     }
 
     public void setData(List<Task> tasks) {
@@ -58,8 +68,14 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.TaskViewHolder
         holder.textTitle.setText(task.getTitle());
         holder.textDeadline.setText(task.getDescription()); // tạm dùng desc làm deadline
 
+        // Click mở chi tiết
         holder.itemView.setOnClickListener(v -> {
             if (listener != null) listener.onTaskClick(task);
+        });
+
+        // Click delete
+        holder.btnDelete.setOnClickListener(v -> {
+            if (deleteListener != null) deleteListener.onTaskDelete(task);
         });
     }
 

@@ -10,6 +10,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.personaltaskmanager.R;
 import com.example.personaltaskmanager.features.task_manager.viewmodel.TaskViewModel;
+import com.example.personaltaskmanager.features.task_manager.data.model.Task;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 /**
@@ -35,9 +36,23 @@ public class TaskListActivity extends AppCompatActivity {
 
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
-        adapter = new TaskAdapter(task -> {
-            // Sau này thêm sửa task
-        });
+        // ========================================================
+        //  ADAPTER (yêu cầu 2 listener → click + delete)
+        // ========================================================
+        adapter = new TaskAdapter(
+                task -> {
+                    // Click: mở task detail
+                    Intent intent = new Intent(TaskListActivity.this, TaskDetailActivity.class);
+                    intent.putExtra("task_id", task.getId());
+                    startActivity(intent);
+                },
+
+                task -> {
+                    // Delete: xóa task
+                    viewModel.deleteTask(task);
+                }
+        );
+
         recyclerView.setAdapter(adapter);
 
         // Lấy ViewModel
@@ -55,9 +70,9 @@ public class TaskListActivity extends AppCompatActivity {
         });
     }
 
-    // Không cần reload — LiveData tự làm
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
+        // Không cần reload — LiveData tự cập nhật UI
     }
 }
