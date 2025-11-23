@@ -3,6 +3,9 @@ package com.example.personaltaskmanager.features.task_manager.screens;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.CheckBox;
+import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -24,29 +27,17 @@ import java.util.List;
  */
 public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.TaskViewHolder> {
 
-    // Danh sách task để hiển thị
     private List<Task> taskList = new ArrayList<>();
-
-    // Listener để Activity xử lý khi người dùng click item
     private OnTaskClickListener listener;
 
-    /**
-     * Interface callback khi user nhấn vào 1 task.
-     */
     public interface OnTaskClickListener {
         void onTaskClick(Task task);
     }
 
-    /**
-     * Constructor — nhận listener từ Activity.
-     */
     public TaskAdapter(OnTaskClickListener listener) {
         this.listener = listener;
     }
 
-    /**
-     * Cập nhật dữ liệu cho RecyclerView.
-     */
     public void setData(List<Task> tasks) {
         this.taskList = tasks;
         notifyDataSetChanged();
@@ -55,25 +46,18 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.TaskViewHolder
     @NonNull
     @Override
     public TaskViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-
-        // Inflate layout item task UI
         View view = LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.feature_task_manager_item_task, parent, false);
-
         return new TaskViewHolder(view);
     }
 
     @Override
     public void onBindViewHolder(@NonNull TaskViewHolder holder, int position) {
-
-        // Lấy task tương ứng
         Task task = taskList.get(position);
 
-        // Gán dữ liệu cho item
-        holder.tvTitle.setText(task.getTitle());
-        holder.tvDesc.setText(task.getDescription());
+        holder.textTitle.setText(task.getTitle());
+        holder.textDeadline.setText(task.getDescription()); // tạm dùng desc làm deadline
 
-        // Gọi listener khi user click item
         holder.itemView.setOnClickListener(v -> {
             if (listener != null) listener.onTaskClick(task);
         });
@@ -84,19 +68,21 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.TaskViewHolder
         return taskList.size();
     }
 
-    /**
-     * ViewHolder lưu trữ view của từng item.
-     */
     public static class TaskViewHolder extends RecyclerView.ViewHolder {
 
-        TextView tvTitle, tvDesc;
+        ImageView imgTask;
+        TextView textTitle, textDeadline;
+        CheckBox checkboxTask;
+        ImageButton btnDelete;
 
         public TaskViewHolder(@NonNull View itemView) {
             super(itemView);
 
-            // Ánh xạ view từ item layout
-            tvTitle = itemView.findViewById(R.id.item_task_title);
-            tvDesc  = itemView.findViewById(R.id.item_task_desc);
+            imgTask = itemView.findViewById(R.id.imgTask);
+            textTitle = itemView.findViewById(R.id.textTaskTitle);
+            textDeadline = itemView.findViewById(R.id.textTaskDeadline);
+            checkboxTask = itemView.findViewById(R.id.checkboxTask);
+            btnDelete = itemView.findViewById(R.id.btnDelete);
         }
     }
 }
