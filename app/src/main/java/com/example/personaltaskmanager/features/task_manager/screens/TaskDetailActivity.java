@@ -85,8 +85,9 @@ public class TaskDetailActivity extends AppCompatActivity {
         Calendar cal = Calendar.getInstance();
         cal.setTimeInMillis(selectedDeadline);
 
-        new DatePickerDialog(
+        DatePickerDialog dialog = new DatePickerDialog(
                 this,
+                R.style.TaskManagerDatePickerTheme,   // ✔ dùng theme riêng
                 (view, year, month, day) -> {
                     Calendar c = Calendar.getInstance();
                     c.set(year, month, day, 0, 0, 0);
@@ -96,8 +97,11 @@ public class TaskDetailActivity extends AppCompatActivity {
                 cal.get(Calendar.YEAR),
                 cal.get(Calendar.MONTH),
                 cal.get(Calendar.DAY_OF_MONTH)
-        ).show();
+        );
+
+        dialog.show();
     }
+
 
     private void saveTask() {
         String title = edtTitle.getText().toString().trim();
