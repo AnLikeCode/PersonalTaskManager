@@ -8,6 +8,7 @@ import com.example.personaltaskmanager.R
 
 // ✨ IMPORT CalendarFragment mới
 import com.example.personaltaskmanager.features.calendar_events.screens.CalendarFragment
+import com.example.personaltaskmanager.features.task_manager.screens.TaskListFragment
 
 class NavigationActivity : AppCompatActivity() {
 
@@ -31,7 +32,7 @@ class NavigationActivity : AppCompatActivity() {
 
     private fun navigateTo(item: NavItem) {
         val fragment: Fragment = when (item) {
-            NavItem.TASKS -> TaskManagerFragment()
+            NavItem.TASKS -> TaskListFragment()
             NavItem.CALENDAR -> CalendarFragment()   // ✔ đã import đúng
             NavItem.SETTINGS -> SettingsFragment()
         }

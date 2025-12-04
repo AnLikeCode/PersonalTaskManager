@@ -14,6 +14,14 @@ class TaskManagerFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        return inflater.inflate(R.layout.feature_task_manager_main, container, false)
+
+        val root = inflater.inflate(R.layout.feature_task_manager_main, container, false)
+
+        // Load TaskListFragment bên trong nếu muốn
+        childFragmentManager.beginTransaction()
+            .replace(R.id.main, TaskListFragment())
+            .commit()
+
+        return root
     }
 }
