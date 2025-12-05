@@ -12,14 +12,15 @@ import com.example.personaltaskmanager.features.authentication.data.model.User;
 /**
  * AuthRepository
  * ---------------------
- * Lớp trung gian xử lý logic Authentication:
- *   - Login (kiểm tra user/password)
+ * Xử lý logic Authentication local:
+ *   - Login (validate user/password)
  *   - Register (kiểm tra trùng username)
  *   - Lưu trạng thái đăng nhập (SharedPreferences)
  *   - Logout
  *
- * Repository kết nối:
- *   UseCase ↔ Room Database ↔ SharedPreferences
+ * Đây là Local Repository.
+ * Khi tích hợp Firebase, lớp này sẽ được bổ sung RemoteAuthDataSource,
+ * nhưng API hiện tại vẫn giữ nguyên để không ảnh hưởng lên UI / ViewModel.
  */
 public class AuthRepository {
 
@@ -32,20 +33,16 @@ public class AuthRepository {
     }
 
     /**
-     * Đăng nhập
-     * Trả về true nếu username tồn tại & password khớp
+     * LOGIN LOCAL
      */
     public boolean login(String username, String password) {
 
         UserEntity u = userDao.getUserByUsername(username);
 
-        // Không có user
         if (u == null) return false;
-
-        // Sai password
         if (!u.password.equals(password)) return false;
 
-        // Lưu trạng thái đăng nhập
+        // Save session
         prefs.edit()
                 .putString("current_user", username)
                 .apply();
@@ -54,8 +51,7 @@ public class AuthRepository {
     }
 
     /**
-     * Đăng ký tài khoản mới
-     * Kiểm tra username đã tồn tại chưa
+     * REGISTER LOCAL
      */
     public boolean register(User user) {
 
@@ -68,8 +64,7 @@ public class AuthRepository {
     }
 
     /**
-     * Lấy user đang đăng nhập
-     * Nếu không có → trả về null
+     * GET CURRENT USER
      */
     public User getCurrentUser() {
         String username = prefs.getString("current_user", null);
@@ -82,7 +77,7 @@ public class AuthRepository {
     }
 
     /**
-     * Logout → xoá trạng thái đăng nhập
+     * LOGOUT
      */
     public void logout() {
         prefs.edit().remove("current_user").apply();

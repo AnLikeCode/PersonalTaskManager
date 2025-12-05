@@ -21,8 +21,7 @@ import com.example.personaltaskmanager.features.navigation.NavigationActivity;
 /**
  * LoginActivity
  * ----------------
- * Màn hình đăng nhập cục bộ (Offline only).
- * Sau khi login → chuyển sang NavigationActivity (bottom nav).
+ * Xử lý login offline bằng Room.
  */
 public class LoginActivity extends AppCompatActivity {
 
@@ -45,9 +44,6 @@ public class LoginActivity extends AppCompatActivity {
         setupActions();
     }
 
-    /**
-     * Thiết lập màu thanh status bar
-     */
     private void setupStatusBar() {
         Window window = getWindow();
         window.setStatusBarColor(Color.WHITE);
@@ -61,9 +57,6 @@ public class LoginActivity extends AppCompatActivity {
         }
     }
 
-    /**
-     * Ánh xạ view
-     */
     private void initViews() {
         etUsername = findViewById(R.id.et_username);
         etPassword = findViewById(R.id.et_password);
@@ -72,18 +65,13 @@ public class LoginActivity extends AppCompatActivity {
         switchTheme = findViewById(R.id.switch_theme);
     }
 
-    /**
-     * Xử lý sự kiện click
-     */
     private void setupActions() {
 
-        // LOGIN
         btnLogin.setOnClickListener(v -> {
 
             String username = etUsername.getText().toString().trim();
             String password = etPassword.getText().toString().trim();
 
-            // Validate cơ bản
             if (username.isEmpty()) {
                 etUsername.setError("Không được bỏ trống");
                 return;
@@ -101,16 +89,12 @@ public class LoginActivity extends AppCompatActivity {
                 return;
             }
 
-            Toast.makeText(this,
-                    "Đăng nhập thành công!", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "Đăng nhập thành công!", Toast.LENGTH_SHORT).show();
 
-            // Sau khi login → chuyển sang NavigationActivity
-            Intent i = new Intent(this, NavigationActivity.class);
-            startActivity(i);
+            startActivity(new Intent(this, NavigationActivity.class));
             finish();
         });
 
-        // CHUYỂN SANG REGISTER
         tvRegister.setOnClickListener(v ->
                 startActivity(new Intent(this, RegisterActivity.class))
         );

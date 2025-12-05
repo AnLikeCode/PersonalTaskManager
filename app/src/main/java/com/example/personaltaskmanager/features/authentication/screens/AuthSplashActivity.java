@@ -13,12 +13,8 @@ import androidx.core.view.WindowInsetsControllerCompat;
 import com.example.personaltaskmanager.R;
 
 /**
- * AuthSplashActivity
- * -------------------
- * Màn hình Splash đơn giản cho module Authentication.
- * Hiện logo/tên app vài giây → chuyển sang LoginActivity.
- *
- * Dùng WindowInsetsControllerCompat để set status bar trắng + icon đen.
+ * Màn Splash nhỏ cho module Authentication.
+ * Chỉ hiển thị logo sau đó chuyển sang LoginActivity.
  */
 public class AuthSplashActivity extends AppCompatActivity {
 
@@ -29,16 +25,12 @@ public class AuthSplashActivity extends AppCompatActivity {
 
         setupStatusBar();
 
-        // Chờ 1.5 giây rồi chuyển sang LoginActivity
         new Handler().postDelayed(() -> {
-            startActivity(new Intent(AuthSplashActivity.this, LoginActivity.class));
+            startActivity(new Intent(this, LoginActivity.class));
             finish();
         }, 1500);
     }
 
-    /**
-     * Setup status bar trắng + icon đen theo chuẩn AndroidX.
-     */
     private void setupStatusBar() {
         Window window = getWindow();
         window.setStatusBarColor(Color.WHITE);
@@ -47,7 +39,7 @@ public class AuthSplashActivity extends AppCompatActivity {
                 WindowCompat.getInsetsController(window, window.getDecorView());
 
         if (wic != null) {
-            wic.setAppearanceLightStatusBars(true);      // icon đen
+            wic.setAppearanceLightStatusBars(true);
             wic.setAppearanceLightNavigationBars(true);
         }
     }

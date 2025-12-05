@@ -14,10 +14,8 @@ import androidx.core.view.WindowInsetsControllerCompat;
 import com.example.personaltaskmanager.R;
 
 /**
- * ForgotPasswordActivity
- * -------------------------
- * Màn hình quên mật khẩu (mock)
- * Chỉ hiển thị thành công – vì hệ thống đang là local.
+ * Màn hình quên mật khẩu (mock).
+ * Khi dùng Firebase thì sẽ replace API này bằng sendPasswordResetEmail().
  */
 public class ForgotPasswordActivity extends AppCompatActivity {
 

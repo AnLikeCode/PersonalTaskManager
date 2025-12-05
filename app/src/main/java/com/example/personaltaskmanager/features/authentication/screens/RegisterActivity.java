@@ -17,9 +17,7 @@ import com.example.personaltaskmanager.features.authentication.data.model.User;
 import com.example.personaltaskmanager.features.authentication.data.repository.AuthRepository;
 
 /**
- * RegisterActivity
- * -------------------
- * Màn hình tạo tài khoản mới (local only)
+ * Màn hình đăng ký user local.
  */
 public class RegisterActivity extends AppCompatActivity {
 
@@ -64,9 +62,6 @@ public class RegisterActivity extends AppCompatActivity {
         tvLogin = findViewById(R.id.tv_to_login);
     }
 
-    /**
-     * Xử lý click Register
-     */
     private void setupActions() {
 
         btnRegister.setOnClickListener(v -> {
@@ -76,7 +71,6 @@ public class RegisterActivity extends AppCompatActivity {
             String password = etPass.getText().toString().trim();
             String confirm = etConfirm.getText().toString().trim();
 
-            // Validate cơ bản
             if (username.isEmpty()) {
                 etUser.setError("Không được để trống");
                 return;
