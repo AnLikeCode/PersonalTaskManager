@@ -16,12 +16,13 @@ import androidx.core.view.WindowInsetsControllerCompat;
 
 import com.example.personaltaskmanager.R;
 import com.example.personaltaskmanager.features.authentication.data.repository.AuthRepository;
-import com.example.personaltaskmanager.features.task_manager.screens.TaskManagerMainActivity;
+import com.example.personaltaskmanager.features.navigation.NavigationActivity;
 
 /**
  * LoginActivity
  * ----------------
  * Màn hình đăng nhập cục bộ (Offline only).
+ * Sau khi login → chuyển sang NavigationActivity (bottom nav).
  */
 public class LoginActivity extends AppCompatActivity {
 
@@ -44,6 +45,9 @@ public class LoginActivity extends AppCompatActivity {
         setupActions();
     }
 
+    /**
+     * Thiết lập màu thanh status bar
+     */
     private void setupStatusBar() {
         Window window = getWindow();
         window.setStatusBarColor(Color.WHITE);
@@ -57,22 +61,29 @@ public class LoginActivity extends AppCompatActivity {
         }
     }
 
+    /**
+     * Ánh xạ view
+     */
     private void initViews() {
         etUsername = findViewById(R.id.et_username);
         etPassword = findViewById(R.id.et_password);
-
         btnLogin = findViewById(R.id.btn_login);
         tvRegister = findViewById(R.id.tv_register);
         switchTheme = findViewById(R.id.switch_theme);
     }
 
+    /**
+     * Xử lý sự kiện click
+     */
     private void setupActions() {
 
+        // LOGIN
         btnLogin.setOnClickListener(v -> {
 
             String username = etUsername.getText().toString().trim();
             String password = etPassword.getText().toString().trim();
 
+            // Validate cơ bản
             if (username.isEmpty()) {
                 etUsername.setError("Không được bỏ trống");
                 return;
@@ -85,19 +96,23 @@ public class LoginActivity extends AppCompatActivity {
             boolean ok = repo.login(username, password);
 
             if (!ok) {
-                Toast.makeText(this, "Sai tài khoản hoặc mật khẩu!", Toast.LENGTH_SHORT).show();
+                Toast.makeText(this,
+                        "Sai tài khoản hoặc mật khẩu!", Toast.LENGTH_SHORT).show();
                 return;
             }
 
-            Toast.makeText(this, "Đăng nhập thành công!", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this,
+                    "Đăng nhập thành công!", Toast.LENGTH_SHORT).show();
 
-            Intent i = new Intent(this, TaskManagerMainActivity.class);
+            // Sau khi login → chuyển sang NavigationActivity
+            Intent i = new Intent(this, NavigationActivity.class);
             startActivity(i);
             finish();
         });
 
-        tvRegister.setOnClickListener(v -> {
-            startActivity(new Intent(this, RegisterActivity.class));
-        });
+        // CHUYỂN SANG REGISTER
+        tvRegister.setOnClickListener(v ->
+                startActivity(new Intent(this, RegisterActivity.class))
+        );
     }
 }

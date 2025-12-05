@@ -10,7 +10,16 @@ import com.example.personaltaskmanager.features.authentication.data.mapper.UserM
 import com.example.personaltaskmanager.features.authentication.data.model.User;
 
 /**
- * Repository trung gian kết nối UseCase <-> Database
+ * AuthRepository
+ * ---------------------
+ * Lớp trung gian xử lý logic Authentication:
+ *   - Login (kiểm tra user/password)
+ *   - Register (kiểm tra trùng username)
+ *   - Lưu trạng thái đăng nhập (SharedPreferences)
+ *   - Logout
+ *
+ * Repository kết nối:
+ *   UseCase ↔ Room Database ↔ SharedPreferences
  */
 public class AuthRepository {
 
@@ -22,20 +31,34 @@ public class AuthRepository {
         prefs = context.getSharedPreferences("auth_prefs", Context.MODE_PRIVATE);
     }
 
+    /**
+     * Đăng nhập
+     * Trả về true nếu username tồn tại & password khớp
+     */
     public boolean login(String username, String password) {
-        UserEntity u = userDao.getUserByUsername(username);
-        boolean ok = (u != null && u.password.equals(password));
 
-        if (ok) {
-            prefs.edit()
-                    .putString("current_user", username)
-                    .apply();
-        }
-        return ok;
+        UserEntity u = userDao.getUserByUsername(username);
+
+        // Không có user
+        if (u == null) return false;
+
+        // Sai password
+        if (!u.password.equals(password)) return false;
+
+        // Lưu trạng thái đăng nhập
+        prefs.edit()
+                .putString("current_user", username)
+                .apply();
+
+        return true;
     }
 
+    /**
+     * Đăng ký tài khoản mới
+     * Kiểm tra username đã tồn tại chưa
+     */
     public boolean register(User user) {
-        // Kiểm tra trùng username
+
         if (userDao.countUsername(user.username) > 0) {
             return false;
         }
@@ -44,12 +67,23 @@ public class AuthRepository {
         return true;
     }
 
+    /**
+     * Lấy user đang đăng nhập
+     * Nếu không có → trả về null
+     */
     public User getCurrentUser() {
         String username = prefs.getString("current_user", null);
         if (username == null) return null;
-        return UserMapper.toModel(userDao.getUserByUsername(username));
+
+        UserEntity e = userDao.getUserByUsername(username);
+        if (e == null) return null;
+
+        return UserMapper.toModel(e);
     }
 
+    /**
+     * Logout → xoá trạng thái đăng nhập
+     */
     public void logout() {
         prefs.edit().remove("current_user").apply();
     }
