@@ -1,0 +1,7 @@
+<resources>
+    <color name="calendar_primary">@color/colorPrimary</color>
+
+    <color name="calendar_today_bg">#CCF5F1</color>
+
+    <color name="calendar_text_default">@color/textPrimary</color>
+</resources>

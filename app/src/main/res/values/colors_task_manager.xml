@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <color name="task_icon_bg">#C7F9F7</color>
+
+    <color name="task_icon_tint">@color/colorPrimary</color>
+
+    <color name="task_delete_tint">@color/colorPrimary</color>
+
+    <color name="task_checkbox_tint">@color/colorPrimary</color>
+
+    <color name="task_checkbox_done_tint">@color/colorPrimaryDark</color>
+
+    <color name="deadline_today">#2196F3</color>
+    <color name="deadline_overdue">#EF5350</color>
+    <color name="deadline_upcoming">#66BB6A</color>
+
+</resources>

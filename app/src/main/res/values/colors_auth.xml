@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <!-- Màu nền tổng thể -->
+    <color name="auth_background">#FFFFFF</color> <!-- trắng -->
+
+    <!-- Màu text -->
+    <color name="auth_text_primary">#1A1A1A</color>
+    <color name="auth_text_secondary">#6F6F6F</color>
+
+    <!-- Màu nhấn (đồng bộ Task Manager) -->
+    <color name="auth_primary">#0D47A1</color>       <!-- xanh đậm -->
+    <color name="auth_primary_light">#1976D2</color> <!-- xanh sáng -->
+    <color name="auth_button_text">#FFFFFF</color>
+
+</resources>

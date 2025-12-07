@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <!-- Theme tùy biến DatePicker -->
+    <style name="TaskManagerDatePickerTheme" parent="@style/ThemeOverlay.MaterialComponents.MaterialCalendar">
+        <item name="colorPrimary">@color/calendar_primary</item>
+        <item name="colorAccent">@color/calendar_primary</item>
+        <item name="android:colorAccent">@color/calendar_primary</item>
+    </style>
+
+</resources>

@@ -7,16 +7,18 @@ import com.example.personaltaskmanager.features.task_manager.data.repository.Tas
 
 import java.util.List;
 
-public class GetTasksUseCase {
+/**
+ * UseCase lấy Task theo ngày (deadline range).
+ */
+public class GetTasksByDateUseCase {
 
     private final TaskRepository repository;
 
-    public GetTasksUseCase(TaskRepository repository) {
+    public GetTasksByDateUseCase(TaskRepository repository) {
         this.repository = repository;
     }
 
-    // Trả về LiveData để UI tự động update
-    public LiveData<List<Task>> execute() {
-        return repository.getAllTasks();
+    public LiveData<List<Task>> execute(long start, long end) {
+        return repository.getTasksByDate(start, end);
     }
 }
