@@ -8,7 +8,7 @@
     android:background="@color/task_icon_bg"
     android:padding="8dp">
 
-    <!-- TOP BAR -->
+    <!-- TOP BAR WITH TASK TITLE + DEADLINE -->
     <com.google.android.material.card.MaterialCardView
         android:id="@+id/card_top_bar"
         android:layout_width="0dp"
@@ -29,6 +29,7 @@
             android:paddingStart="16dp"
             android:paddingEnd="24dp">
 
+            <!-- BACK BUTTON -->
             <ImageButton
                 android:id="@+id/btn_back_ws"
                 android:layout_width="48dp"
@@ -36,31 +37,44 @@
                 android:background="?attr/selectableItemBackgroundBorderless"
                 android:src="@drawable/feature_calendar_ic_arrow_left"
                 app:tint="@color/task_icon_tint"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                android:contentDescription="Back" />
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"/>
 
+            <!-- TASK TITLE -->
             <TextView
-                android:id="@+id/tv_title_placeholder"
+                android:id="@+id/tv_task_title"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="8dp"
-                android:text="Workspace"
+                android:text="Task title"
                 android:textStyle="bold"
                 android:textSize="20sp"
                 android:textColor="@color/black"
                 app:layout_constraintStart_toEndOf="@id/btn_back_ws"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintBottom_toBottomOf="parent"/>
+                app:layout_constraintTop_toTopOf="parent"/>
+
+            <!-- TASK DEADLINE -->
+            <TextView
+                android:id="@+id/tv_task_deadline"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:text="2025-12-08"
+                android:textSize="14sp"
+                android:textColor="@color/gray"
+                app:layout_constraintStart_toStartOf="@id/tv_task_title"
+                app:layout_constraintTop_toBottomOf="@id/tv_task_title"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"/>
 
         </androidx.constraintlayout.widget.ConstraintLayout>
     </com.google.android.material.card.MaterialCardView>
 
 
 
-    <!-- TOOLBAR (CHIPS) -->
+    <!-- TOOLBAR WITH CHIPS -->
     <HorizontalScrollView
         android:id="@+id/scroll_layout_tools"
         android:layout_width="0dp"
@@ -80,71 +94,63 @@
             android:layout_height="wrap_content"
             android:paddingVertical="4dp">
 
-            <!-- CHIP: PARAGRAPH -->
+            <!-- Paragraph -->
             <com.google.android.material.chip.Chip
                 android:id="@+id/btn_add_paragraph"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="8dp"
-                android:text="add paragraph"
+                android:text="Add paragraph"
                 android:textColor="@color/task_icon_tint"
-                android:textAppearance="@style/TextAppearance.MaterialComponents.Body2"
                 app:chipBackgroundColor="@color/white"
                 app:chipStrokeColor="@color/task_icon_tint"
                 app:chipStrokeWidth="1dp"
-                app:chipCornerRadius="12dp"
-                app:chipMinHeight="36dp" />
+                app:chipCornerRadius="12dp"/>
 
-            <!-- CHIP: TODO -->
+            <!-- Todo -->
             <com.google.android.material.chip.Chip
                 android:id="@+id/btn_add_todo"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="8dp"
-                android:text="add todo"
+                android:text="Add todo"
                 android:textColor="@color/task_icon_tint"
-                android:textAppearance="@style/TextAppearance.MaterialComponents.Body2"
                 app:chipBackgroundColor="@color/white"
                 app:chipStrokeColor="@color/task_icon_tint"
                 app:chipStrokeWidth="1dp"
-                app:chipCornerRadius="12dp"
-                app:chipMinHeight="36dp" />
+                app:chipCornerRadius="12dp"/>
 
-            <!-- CHIP: BULLET -->
+            <!-- Bullet -->
             <com.google.android.material.chip.Chip
                 android:id="@+id/btn_add_bullet"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="8dp"
-                android:text="add bullet"
+                android:text="Add bullet"
                 android:textColor="@color/task_icon_tint"
-                android:textAppearance="@style/TextAppearance.MaterialComponents.Body2"
                 app:chipBackgroundColor="@color/white"
                 app:chipStrokeColor="@color/task_icon_tint"
                 app:chipStrokeWidth="1dp"
-                app:chipCornerRadius="12dp"
-                app:chipMinHeight="36dp" />
+                app:chipCornerRadius="12dp"/>
 
-            <!-- CHIP: DIVIDER -->
+            <!-- Divider -->
             <com.google.android.material.chip.Chip
                 android:id="@+id/btn_add_divider"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="add divider"
+                android:text="Add divider"
                 android:textColor="@color/task_icon_tint"
-                android:textAppearance="@style/TextAppearance.MaterialComponents.Body2"
                 app:chipBackgroundColor="@color/white"
                 app:chipStrokeColor="@color/task_icon_tint"
                 app:chipStrokeWidth="1dp"
-                app:chipCornerRadius="12dp"
-                app:chipMinHeight="36dp" />
+                app:chipCornerRadius="12dp"/>
 
         </LinearLayout>
     </HorizontalScrollView>
 
 
 
-    <!-- CONTENT CARD -->
+    <!-- WORKSPACE LIST -->
     <com.google.android.material.card.MaterialCardView
         android:id="@+id/card_workspace_list"
         android:layout_width="0dp"
